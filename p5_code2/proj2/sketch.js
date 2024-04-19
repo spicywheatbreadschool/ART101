@@ -10,34 +10,33 @@ let midBranch;
 
 let frameLim1 = 100;
 let frameLim2 = 420;
-let frameLim3 = 800;
+let frameLim3 = 900;
 
 function setup() {
   can = createCanvas(1920, 1080);
   frameRate(.25);
+
   mainBranch = new recursiveTree(120, 0.8, 2);
   eye1 = new recursiveTree(80, .4, 0.5);
   midBranch = new recursiveTree(100, 0.5, 2);
+  frameCount = 718;
 }
 
 function draw() {
-  // Phase 1
+  // Universal Transforms
+  background(0);
+
+  let a = frameCount / 10;
+  let a2 = frameCount / 5;
+  let a3 = radians(9); // Mid branch will have a very slight deviation to have a curve shape (assumedly.)
+
+  translate(width / 2,-400 + height);
+  stroke(255);
+  strokeWeight(1);
+  theta = radians(a);
+
   if(frameCount <= frameLim1) {
-    background(0);
 
-    // Let's pick an angle 0 to 90 degrees based on the mouse position
-    let a = frameCount / 2;
-    let a2 = frameCount / 2 + 15;
-    // Convert it to radians
-    theta = radians(a);
-    // Start the tree from the bottom of the screen
-    translate(width/2,height);
-    // Move to the end of that line
-    translate(0,-400);
-
-    // Main branch
-    stroke(255);
-    strokeWeight(1);
     mainBranch.twoBranch(mainBranch.initLine);
 
     // "eye" branches
@@ -47,58 +46,42 @@ function draw() {
 
     translate(-60, -100);
     eye1.reverseBranch(eye1.initLine, eye1.InitLine2);
+
     translate(120, 0);
     eye1.reverseBranch(eye1.initLine, eye1.InitLine2);
+
   } else if(frameCount <= frameLim2) {
-    background(0);
 
-    let a = (frameLim1/2) + frameCount / 55;
-    let a2 = 45 / 2 + (frameCount - frameLim1) * 2;
-
-    translate(width / 2,- 400 + height);
-    // Start adding a shake to the mainBranch that increases as frame increases
-    // Main branch but it remains where it left off at frame 60
-    stroke(255);
-    strokeWeight(1);
-    theta = radians(a);
     mainBranch.twoBranch(mainBranch.initLine);
 
-    translate(-60, -100);
+
     // Eye branches but begin changing theta for them now
     theta = radians(a2);
     stroke(145, 12, 0);
     strokeWeight(4 - (frameCount - frameLim1) / 105);
 
-    eye1.initLine += (frameCount - frameLim1) / frameLim1;
-    eye1.initLine2 += (frameCount - frameLim1) / frameLim1;
+    eye1.initLine = (frameCount + 80 - frameLim1);
+    eye1.initLine2 = (frameCount - frameLim1) / 10;
     //eye1.minLen += 0.02;
 
+    translate(-60, -100);
     eye1.reverseBranch(eye1.initLine, eye1.initLine2);
     translate(120, 0)
     eye1.reverseBranch(eye1.initLine, eye1.initLine2);
-  } else if(frameCount <= frameLim3) {
-    background(0);
 
-    let a = frameLim1/2 + frameLim2 / 55;
-    let a2 = 45 / 2 + (frameCount - frameLim1) * 2;
-    let a3 = radians(9); // Mid branch will have a very slight deviation to have a curve shape (assumedly.)
+  } else {
 
-    translate(width / 2,-400 + height);
-    // Sahke increases in intensity
-    // Main branch but it remains where it left off at frame 420
-    stroke(255);
-    strokeWeight(1);
-    theta = radians(a);
     mainBranch.twoBranch(mainBranch.initLine);
 
-    translate(-60,-100);
     // Render eye branches wherever they end up
     theta = radians(a2);
     stroke(145, 12, 0);
     strokeWeight(4 - (frameLim2 - frameLim1) / 105);
 
-    eye1.initLine -= (frameCount - frameLim1) / (frameLim2 * 100);
-    eye1.initLine2 -= (frameCount - frameLim1) / (frameLim2 * 100);
+    eye1.initLine = (frameCount + 80 - frameLim1);
+    eye1.initLine2 = (frameCount - frameLim1) / 10;
+
+    translate(-60,-100);
     eye1.reverseBranch(eye1.initLine, eye1.initLine2);
     translate(120, 0)
     eye1.reverseBranch(eye1.initLine, eye1.initLine2);
@@ -109,7 +92,7 @@ function draw() {
     theta = a3;
     strokeWeight(.8);
     stroke(0, 0, 0);
-    midBranch.initLine = 100 + (frameCount - frameLim2) * 1.1;
+    midBranch.initLine = 100 + (frameCount - frameLim2) * 1.4;
     midBranch.halfBranch(midBranch.initLine);
 
     translate(-200, 0);
@@ -120,28 +103,10 @@ function draw() {
   }
   // Recording functionality
   console.log(frameCount);
-  recordit();
-}
-function keyPressed() {
-
-  if (keyIsPressed === true) {
-      let k = key;
-      console.log("k is " + k);
-
-      if (k == 's' || k == 'S') {
-          console.log("Stopped Recording");
-          recMode = false;
-          noLoop();
-      }
-
-      if (k == ' ') {
-          console.log("Start Recording");
-          recMode = true;
-          loop();
-      }
+  if(frameCount < frameLim3) {
+    recordit();
   }
 }
-
 function recordit() {  // new version
   if (recMode == true) {
       let ext = nf(frameCount, 4);
