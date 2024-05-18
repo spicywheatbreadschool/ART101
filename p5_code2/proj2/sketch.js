@@ -1,5 +1,5 @@
 let theta;
-let recMode = true;
+let recMode = false;
 
 let can;
 
@@ -19,7 +19,6 @@ function setup() {
   mainBranch = new recursiveTree(120, 0.8, 2);
   eye1 = new recursiveTree(80, .4, 0.5);
   midBranch = new recursiveTree(100, 0.5, 2);
-  frameCount = 718;
 }
 
 function draw() {

@@ -1,0 +1,33 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script language="javascript" type="text/javascript" src="../lib/p5.min.js"></script>
+  <!-- uncomment lines below to include extra p5 libraries -->
+	<!--<script language="javascript" src="../lib/p5.dom.min.js"></script>-->
+  <!--<script language="javascript" src="../lib/p5.sound.min.js"></script>-->
+  <script language="javascript" type="text/javascript" src="sketch.js"></script>
+  <!-- this line removes any default padding and style. you might only need one of these values set. -->
+  <style>
+   body {padding: 50; margin: 50;
+  	background-color: #222;
+  }
+   h1 { color:#ee9;
+	    font-size: 20;
+   }
+
+   p { color:#fa0;}
+
+  </style>
+
+</head>
+
+<body>
+<h1> Exercise 4 </h1>
+
+<p> <strong>Run Free!!!</strong> Press mouse to flip the cats!!
+    <br> <br> The bounciness of the cats was a happy leftover from the code I was using to test my cat behavior. I had a "test cat" in my draw function and then a cat to test my jumping method, which resulted in an afterimage effect due to the position of the "jumping" cat being updated after the "test cat" was already rendered. So, I applied this logic to all my cats, where it will first draw a cat at their current position, calculate the next position for their jump, and then draw that one too. <br> <br>
+    This is a simple project with simple visual elements, but I like how clean it is compared to the things I made in my first project.
+    </p>
+ <br>
+</body>
+</html>
